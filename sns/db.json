@@ -4,16 +4,26 @@
   "subscriptions": [
     {
       "arn": "e9126059-9eab-4b37-8194-e0d64dfb2045",
-      "topicArn": "arn:aws:sns:us-east-1:1465414804035:payment_transactions",
-      "endpoint": "aws-sqs://aggregations?amazonSQSEndpoint=http://sqs:9324&accessKey=&secretKey=",
+      "topicArn": "arn:aws:sns:us-east-1:1465414804035:platform_transactions",
+      "endpoint": "aws-sqs://stream_processing?amazonSQSEndpoint=http://sqs:9324&accessKey=&secretKey=",
       "owner": "",
-      "protocol": "sqs"
+      "protocol": "sqs",
+      "subscriptionAttributes": {
+        "RawMessageDelivery": "true"
+      }
+    },
+    {
+      "arn": "6df4ed2b-a650-4f7c-910a-1a89c7cae5a6",
+      "topicArn": "arn:aws:sns:us-east-1:1465414804035:platform_transactions",
+      "endpoint": "file://tmp?fileName=sns.log",
+      "owner": "",
+      "protocol": "file"
     }
   ],
   "topics": [
     {
-      "arn": "arn:aws:sns:us-east-1:1465414804035:payment_transactions",
-      "name": "payment_transactions"
+      "arn": "arn:aws:sns:us-east-1:1465414804035:platform_transactions",
+      "name": "platform_transactions"
     }
   ]
 }

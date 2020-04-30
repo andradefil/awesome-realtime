@@ -10,8 +10,9 @@ services:
     depends_on:
     - sqs
   sqs:
-    image: s12v/elasticmq
+    image: roribio16/alpine-sqs
     ports:
-    - "9324:9324"
+      - 9324:9324
+      - 9325:9325
     volumes:
-    - ./sqs/elasticmq.conf:/etc/elasticmq/elasticmq.conf
+      - ./sqs/elasticmq.conf:/opt/custom/elasticmq.conf
