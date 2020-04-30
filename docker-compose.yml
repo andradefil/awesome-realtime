@@ -6,7 +6,7 @@ services:
     ports:
     - "9911:9911"
     volumes:
-    - ./config/sns/db.json:/etc/sns/db.json
+    - ./sns/db.json:/etc/sns/db.json
     depends_on:
     - sqs
   sqs:
@@ -14,4 +14,4 @@ services:
     ports:
     - "9324:9324"
     volumes:
-    - ./config/sqs/elasticmq.conf:/etc/elasticmq/elasticmq.conf
+    - ./sqs/elasticmq.conf:/etc/elasticmq/elasticmq.conf
