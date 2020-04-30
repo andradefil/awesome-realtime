@@ -1,0 +1,17 @@
+
+version: '3.3'
+services:
+  sns:
+    image: s12v/sns
+    ports:
+    - "9911:9911"
+    volumes:
+    - ./config/sns/db.json:/etc/sns/db.json
+    depends_on:
+    - sqs
+  sqs:
+    image: s12v/elasticmq
+    ports:
+    - "9324:9324"
+    volumes:
+    - ./config/sqs/elasticmq.conf:/etc/elasticmq/elasticmq.conf
