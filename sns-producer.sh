@@ -1,14 +1,13 @@
 #!/bin/bash
 
-payload="{\
-    account_id: '5665cb89-3392-4dd9-b1d1-9e6eb0fbd34b',\
-    merchant_id: '5665cb89-3392-4dd9-b1d1-9e6eb0fbd34b',\
-    year_month_day: '2020|04|25',\
-    transaction_id: '5665cb89-3392-4dd9-b1d1-9e6eb0fbd34b',\
-    card_fingerprint: 'f669a783-8c2f-4ff0-bdc9-ea343283d8cd',\
-    band: 'VISA',\
-    ammount: 3000,\
-    ttl: 144040\
+payload="{
+    account_id: '5665cb89-3392-4dd9-b1d1-9e6eb0fbd34b',
+    merchant_id: '5665cb89-3392-4dd9-b1d1-9e6eb0fbd34b',
+    timestamp: '2020-02-18T09:35:17.260Z',
+    transaction_id: '5665cb89-3392-4dd9-b1d1-9e6eb0fbd34b',
+    card_fingerprint: 'f669a783-8c2f-4ff0-bdc9-ea343283d8cd',
+    band: 'VISA',
+    ammount: 3000
 }"
 
 while true

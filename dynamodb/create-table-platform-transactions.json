@@ -1,0 +1,15 @@
+{
+    "TableName": "platform_transactions",
+    "KeySchema": [
+      { "AttributeName": "account_id", "KeyType": "HASH" },
+      { "AttributeName": "year_month_day", "KeyType": "RANGE" }
+    ],
+    "AttributeDefinitions": [
+      { "AttributeName": "account_id", "AttributeType": "S" },
+      { "AttributeName": "merchant_id", "AttributeType": "S" }
+    ],
+    "ProvisionedThroughput": {
+      "ReadCapacityUnits": 5,
+      "WriteCapacityUnits": 5
+    }
+}
