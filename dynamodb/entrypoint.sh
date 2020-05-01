@@ -1,2 +1,4 @@
 #!/bin/bash
-aws dynamodb create-table --cli-input-json file://create-table-platform-transactions.json --endpoint-url http://localhost:8000
+java -jar ./DynamoDBLocal.jar -inMemory >> logs 2>&1 &
+/init-scripts.sh >> logs 2>&1 &
+tail -f logs

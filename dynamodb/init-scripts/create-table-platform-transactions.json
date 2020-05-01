@@ -6,7 +6,7 @@
     ],
     "AttributeDefinitions": [
       { "AttributeName": "account_id", "AttributeType": "S" },
-      { "AttributeName": "merchant_id", "AttributeType": "S" }
+      { "AttributeName": "year_month_day", "AttributeType": "S" }
     ],
     "ProvisionedThroughput": {
       "ReadCapacityUnits": 5,
