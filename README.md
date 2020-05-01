@@ -4,13 +4,6 @@ POC getting real-time data streams from SNS topic and put data into Kafka ending
 Architecture Big Picture
 ![architecture big picture](docs/bigpicture.png "Architecture Big Picture")
 
-## SNS as source of processor
-
-> On AWS using SNS to fan out to multiple SQS queues is a common scenario. SNS fan out means creating a SQS queue for each consumer of an SNS message and subscribing each SQS queue to the SNS topic. This means when a message is sent to the SNS topic a copy of the message arrives in each consumer’s queue. It gives you multicast messaging and the ability to consume messages at your own pace and allowing you to not be online when a notification occurs.
-
-## DynamoDB as storage
-> Dynamodb has high performance as storage (... continue) 
-
 Stack
 * SNS 
 * SQS
@@ -19,10 +12,24 @@ Stack
 
 The local setup to run is based in docker-compose
 
+
+Ports
+* SNS : 9911
+* SQS : 9324
+* SQS-UI: 9325
+* Zookeeper: 2181
+* Landoop UI: 3030
+* Rest Proxy, Schema Registry: 8081, 8083
+* JMX Ports: 9581, 9585
+* Kafka Broker: 9092
+* DynamoDB: 8000
+
 ## Run
 > docker-compose up --build
 
 References:
-> https://www.confluent.io/hub/confluentinc/kafka-connect-sqs (sqs plugin )
-
-> https://kevinholditch.co.uk/2017/10/19/running-sns-sqs-locally-in-docker-containers-supporting-fan-out/ (article that inspired docker-compose stack)
+* [SQS Connector Plugin](https://www.confluent.io/hub/confluentinc/kafka-connect-sqs)
+* [Local SQS](https://github.com/roribio/alpine-sqs)
+* [Local SNS](https://github.com/s12v/sns)
+* [Local DynamoDB](https://hub.docker.com/r/amazon/dynamodb-local/)
+* [Local Apache Kafka](https://hub.docker.com/r/landoop/fast-data-dev/)
