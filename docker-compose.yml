@@ -1,5 +1,5 @@
 
-version: '3.3'
+version: '2.4'
 services:
   sns:
     image: s12v/sns
@@ -8,28 +8,30 @@ services:
     volumes:
     - ./sns/db.json:/etc/sns/db.json
     depends_on:
-    - sqs
+      sqs:
+        condition: service_healthy
   sqs:
     image: roribio16/alpine-sqs
     ports:
       - 9324:9324
-      - 9325:9325
+      - 9325:9325 #SQS Queue Dashboard
     volumes:
       - ./sqs/elasticmq.conf:/opt/custom/elasticmq.conf
-  kafka:
+    healthcheck:
+      test: "wget localhost:9325 -q -O - > /dev/null 2>&1"
+      interval: 5s
+      timeout: 2s
+      retries: 3
+  kafka-cluster:
     image: landoop/fast-data-dev:cp3.3.0
     environment:
-      ADV_HOST: 127.0.0.1
-      RUNTESTS: 0
+      ADV_HOST: 127.0.0.1         # Change to 192.168.99.100 if using Docker Toolbox
+      RUNTESTS: 0                 # Disable Running tests so the cluster starts faster
     ports:
       - 2181:2181                 # Zookeeper
       - 3030:3030                 # Landoop UI
       - 8081-8083:8081-8083       # REST Proxy, Schema Registry, Kafka Connect ports
       - 9581-9585:9581-9585       # JMX Ports
       - 9092:9092                 # Kafka Broker
-  dynamodb:
-    image: killboard/dynamodb-aws-cli:latest
-    ports:
-      - 8000:8000
     volumes:
-    - ./dynamodb:/init-scripts
+      - ./kafka-connectors/jar:/connectors

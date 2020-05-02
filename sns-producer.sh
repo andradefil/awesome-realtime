@@ -13,6 +13,6 @@ payload="{
 while true
 do
     aws sns --region us-east-1 --endpoint-url http://localhost:9911\
-    publish --topic-arn arn:aws:sns:us-east-1:1465414804035:platform_transactions --message "$payload"
+    publish --topic-arn arn:aws:sns:us-east-1:1465414804035:platform-transactions --message "$payload"
     sleep 1
 done
