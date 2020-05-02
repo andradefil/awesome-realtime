@@ -28,6 +28,8 @@ services:
       - 9581-9585:9581-9585       # JMX Ports
       - 9092:9092                 # Kafka Broker
   dynamodb:
-    image: amazon/dynamodb-local:latest
+    image: killboard/dynamodb-aws-cli:latest
     ports:
       - 8000:8000
+    volumes:
+    - ./dynamodb:/init-scripts
