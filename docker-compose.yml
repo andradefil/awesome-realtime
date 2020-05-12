@@ -22,17 +22,10 @@ services:
       interval: 5s
       timeout: 2s
       retries: 3
-  elasticsearch:
-    image: itzg/elasticsearch:2.4.3
-    environment:
-      PLUGINS: appbaseio/dejavu
-      OPTS: -Dindex.number_of_shards=1 -Dindex.number_of_replicas=0
-    ports:
-      - "9200:9200"
   kafka-cluster:
     image: landoop/fast-data-dev:cp3.3.0
     environment:
-      ADV_HOST: 127.0.0.1         # Change to 192.168.99.100 if using Docker Toolbox
+      ADV_HOST: kafka-cluster        # Change to 192.168.99.100 if using Docker Toolbox
       RUNTESTS: 0                 # Disable Running tests so the cluster starts faster
       AWS_ACCESS_KEY_ID: foo      # AWS Dummy Access Key
       AWS_SECRET_KEY: bar         # AWS Dummy Secret Key
@@ -44,3 +37,16 @@ services:
       - 9092:9092                 # Kafka Broker
     volumes:
       - ./kafka-connectors/jars:/connectors
+  ksqldb-server:
+    image: confluentinc/ksqldb-server:0.8.1
+    hostname: ksqldb-server
+    container_name: ksqldb-server
+    ports:
+      - "8088:8088"
+    environment:
+      KSQL_LISTENERS: http://0.0.0.0:8088
+      KSQL_BOOTSTRAP_SERVERS: kafka-cluster:9092
+      KSQL_KSQL_LOGGING_PROCESSING_STREAM_AUTO_CREATE: "true"
+      KSQL_KSQL_LOGGING_PROCESSING_TOPIC_AUTO_CREATE: "true"
+    depends_on:
+      - kafka-cluster
