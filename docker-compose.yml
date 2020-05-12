@@ -22,6 +22,13 @@ services:
       interval: 5s
       timeout: 2s
       retries: 3
+  elasticsearch:
+    image: itzg/elasticsearch:2.4.3
+    environment:
+      PLUGINS: appbaseio/dejavu
+      OPTS: -Dindex.number_of_shards=1 -Dindex.number_of_replicas=0
+    ports:
+      - "9200:9200"
   kafka-cluster:
     image: landoop/fast-data-dev:cp3.3.0
     environment:
