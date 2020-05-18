@@ -2,7 +2,8 @@ var express = require('express');
 var app = express();
 var serv = require('http').Server(app);
 var colors = require('colors/safe');
-var faker = require('faker');
+var kafka = require('kafka-node')
+var Producer = kafka.Producer
 var middleware = require('socketio-wildcard')();
 
 var debug = typeof v8debug === 'object' || /--debug/.test(process.execArgv.join(' '));
@@ -15,19 +16,33 @@ app.use('/client',express.static(__dirname + '/client'));
 
 //---------- Server settings ----------
 var MAX_SOCKET_ACTIVITY_PER_SECOND = 1000;
+var KAFKA_IS_CONNECTED = false
 var fps = 30;
 //-------------------------------------
 
 var port = process.env.PORT || 80;
+var kafkaPort = process.env.KAFKA_PORT || 29092;
 if(process.env.PORT == undefined) {
 	console.log(colors.blue("[jsShooter] No port defined using default (80)"));
+}
+
+if(process.env.PORT == undefined) {
+	console.log(colors.blue(`[jsShooter] No Kafka port defined using default (${kafkaPort})`));
 }
 
 serv.listen(port);
 var io = require("socket.io")(serv, {});
 io.use(middleware);
 
+var kafkaClient = new kafka.KafkaClient({ kafkaHost: 'localhost:29092' })
+var kafkaProducer = new Producer(kafkaClient)
+
 console.log(colors.green("[jsShooter] Socket started on port " + port));
+
+kafkaProducer.on('ready', function () {
+	KAFKA_IS_CONNECTED = true;
+    console.log(colors.green("[jsShooter] Kafka connected on port " + kafkaPort));
+});
 
 var SOCKET_LIST = {};
 var SOCKET_ACTIVITY = {};
@@ -1032,7 +1047,10 @@ async function update() {
 				});
 				if(updatePriceCooldown <= 0) {
 					let socket = SOCKET_LIST[p];
-					socket.emit("price", {
+					let priceUpdate = {
+						id: player.id,
+						hp: player.hp,
+						name: player.name,
 						upgHP:player.upgHPPrice,
 						score:player.score,
 						doubleBulletSize:player.doubleBulletSize,
@@ -1040,7 +1058,13 @@ async function update() {
 						quadrupleFireSpeed:player.quadrupleFireSpeed,
 						quadrupleBullets:player.quadrupleBullets,
 						dualBullets:player.dualBullets
-					});
+					}
+
+					if (KAFKA_IS_CONNECTED) {
+						const payloads = [{ topic: "js-shooter-price-update", messages: JSON.stringify(priceUpdate) }]
+						kafkaProducer.send(payloads, (err, data) => console.log("sent to topic"))
+					}
+					socket.emit("price", priceUpdate);
 				}
 			}
 		}
