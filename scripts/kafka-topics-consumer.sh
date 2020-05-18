@@ -1,2 +1,2 @@
 #!/bin/bash
-kafka-console-consumer --topic $1 --bootstrap-server kafka-cluster:9092
+kafka-console-consumer --topic $1 --bootstrap-server broker:29092

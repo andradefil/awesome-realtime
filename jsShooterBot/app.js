@@ -3,7 +3,7 @@ const { setIntervalAsync } = require('set-interval-async/dynamic')
 const puppeteer = require('puppeteer');
 const faker = require('faker');
 
-const PLAYER_BOTS_LIMIT = 8;
+const PLAYER_BOTS_LIMIT = 4;
 const GAME_URL = 'http://localhost'
 const CLOCK = 1000
 
