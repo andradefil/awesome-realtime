@@ -1,8 +1,63 @@
 # awesome-realtime
-POC getting real-time data streams from SNS topic and put data into Kafka ending up into DynamoDB
+POC getting real-time data events from Js Shooter Game, generating data streams and performs query using ksql.
 
-Architecture Big Picture
-![architecture big picture](docs/bigpicture.png "Architecture Big Picture")
+Bots batle
+![bots battle](docs/bots-battle.gitf "Bots Battle")
+
+
+Streams
+```
+ksql> select * from playerstream emit changes;
++-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+
+|ROWKEY             |ID                 |HP                 |NAME               |UPGHP              |SCORE              |DOUBLEBULLETSIZE   |DOUBLEFIRESPEED    |QUADRUPLEFIRESPEED |QUADRUPLEBULLETS   |DUALBULLETS        |
++-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+
+|null               |0.11180612068519369|10                 |Lance Bot          |500                |211                |false              |false              |false              |false              |false              |
+|null               |0.7508704367602033 |10                 |Neva Bot           |500                |601                |false              |false              |false              |false              |false              |
+|null               |0.7898112422518919 |10                 |Travis Bot         |500                |180                |false              |false              |false              |false              |false              |
+|null               |0.2768878019064893 |6                  |Beverly Bot        |500                |380                |false              |false              |false              |false              |false              |
+|null               |0.11180612068519369|10                 |Lance Bot          |500                |261                |false              |false              |false              |false              |false              |
+|null               |0.7508704367602033 |10                 |Neva Bot           |500                |601                |false              |false              |false              |false              |false              |
+|null               |0.7898112422518919 |10                 |Travis Bot         |500                |180                |false              |false              |false              |false              |false              |
+|null               |0.2768878019064893 |6                  |Beverly Bot        |500                |380                |false              |false              |false              |false              |false              |
+|null               |0.11180612068519369|10                 |Lance Bot          |500                |261                |false              |false              |false              |false              |false              |
+|null               |0.7508704367602033 |10                 |Neva Bot           |500                |601                |false              |false              |false              |false              |false              |
+|null               |0.7898112422518919 |10                 |Travis Bot         |500                |180                |false              |false              |false              |false              |false              |
+|null               |0.2768878019064893 |5                  |Beverly Bot        |500                |380                |false              |false              |false              |false              |false              |
+|null               |0.11180612068519369|10                 |Lance Bot          |500                |261                |false              |false              |false              |false              |false              |
+|null               |0.7508704367602033 |10                 |Neva Bot           |500                |601                |false              |false              |false              |false              |false              |
+|null               |0.7898112422518919 |10                 |Travis Bot         |500                |180                |false              |false              |false              |false              |false              |
+|null               |0.2768878019064893 |5                  |Beverly Bot        |500                |380                |false              |false              |false              |false              |false              |
+|null               |0.11180612068519369|10                 |Lance Bot          |500                |311                |false              |false              |false              |false              |false              |
+|null               |0.7508704367602033 |10                 |Neva Bot           |500                |601                |false              |false              |false              |false              |false              |
+|null               |0.7898112422518919 |10                 |Travis Bot         |500                |230                |false              |false              |false              |false              |false              |
+|null               |0.2768878019064893 |5                  |Beverly Bot        |500                |380                |false              |false              |false              |false              |false              |
+|null               |0.11180612068519369|10                 |Lance Bot          |500                |361                |false              |false              |false              |false              |false              |
+|null               |0.7508704367602033 |10                 |Neva Bot           |500                |601                |false              |false              |false              |false              |false              |
+|null               |0.7898112422518919 |10                 |Travis Bot         |500                |230                |false              |false              |false              |false              |false              |
+|null               |0.2768878019064893 |5                  |Beverly Bot        |500                |380                |false              |false              |false              |false              |false              |
+|null               |0.11180612068519369|10                 |Lance Bot          |500                |361                |false              |false              |false              |false              |false              |
+|null               |0.7508704367602033 |10                 |Neva Bot           |500                |601                |false              |false              |false              |false              |false              |
+|null               |0.7898112422518919 |10                 |Travis Bot         |500                |230                |false              |false              |false              |false              |false              |
+|null               |0.2768878019064893 |4                  |Beverly Bot        |500                |380                |false              |false              |false              |false              |false              |
+|null               |0.11180612068519369|10                 |Lance Bot          |500                |361                |false              |false              |false              |false              |false              |
+|null               |0.7508704367602033 |10                 |Neva Bot           |500                |601                |false              |false              |false              |false              |false              |
+|null               |0.7898112422518919 |10                 |Travis Bot         |500                |230                |false              |false              |false              |false              |false              |
+|null               |0.2768878019064893 |4                  |Beverly Bot        |500                |380                |false              |false              |false              |false              |false              |
+|null               |0.11180612068519369|10                 |Lance Bot          |500                |361                |false              |false              |false              |false              |false              |
+|null               |0.7508704367602033 |10                 |Neva Bot           |500                |601                |false              |false              |false              |false              |false              |
+|null               |0.7898112422518919 |10                 |Travis Bot         |500                |230                |false              |false              |false              |false              |false              |
+|null               |0.2768878019064893 |4                  |Beverly Bot        |500                |380                |false              |false              |false              |false              |false              |
+|null               |0.11180612068519369|10                 |Lance Bot          |500                |361                |false              |false              |false              |false              |false              |
+|null               |0.7508704367602033 |10                 |Neva Bot           |500                |601                |false              |false              |false              |false              |false              |
+|null               |0.7898112422518919 |10                 |Travis Bot         |500                |230                |false              |false              |false              |false              |false              |
+|null               |0.2768878019064893 |5                  |Beverly Bot        |500                |380                |false              |false              |false              |false              |false              |
+|null               |0.11180612068519369|10                 |Lance Bot          |500                |361                |false              |false              |false              |false              |false              |
+|null               |0.7508704367602033 |10                 |Neva Bot           |500                |601                |false              |false              |false              |false              |false              |
+|null               |0.7898112422518919 |10                 |Travis Bot         |500                |230                |false              |false              |false              |false              |false              |
+|null               |0.2768878019064893 |4                  |Beverly Bot        |500                |380                |false              |false              |false              |false              |false              |
+
+```
+
 
 Stack
 * SNS 

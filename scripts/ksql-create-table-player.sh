@@ -1,6 +1,5 @@
 :'
 CREATE TABLE playerstable (\
-rowkey VARCHAR PRIMARY KEY, \
 id VARCHAR, \
 hp INT, \
 name VARCHAR, \
