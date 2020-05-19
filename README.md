@@ -2,7 +2,7 @@
 POC getting real-time data events from Js Shooter Game, generating data streams and performs query using ksql.
 
 Bots batle
-![bots battle](docs/bots-battle.gitf "Bots Battle")
+![bots battle](docs/bots-battle.gif)
 
 
 Streams
