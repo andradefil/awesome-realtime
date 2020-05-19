@@ -1,6 +1,6 @@
-:' 
-CREATE STREAM playerstream (\
-rowkey VARCHAR KEY, \
+:'
+CREATE TABLE playerstable (\
+rowkey VARCHAR PRIMARY KEY, \
 id VARCHAR, \
 hp INT, \
 name VARCHAR, \
