@@ -1,27 +1,27 @@
 
 version: '2.4'
 services:
-  sns:
-    image: s12v/sns
-    ports:
-    - "9911:9911"
-    volumes:
-    - ./sns/db.json:/etc/sns/db.json
-    depends_on:
-      sqs:
-        condition: service_healthy
-  sqs:
-    image: roribio16/alpine-sqs
-    ports:
-      - 9324:9324
-      - 9325:9325 #SQS Queue Dashboard
-    volumes:
-      - ./sqs/elasticmq.conf:/opt/custom/elasticmq.conf
-    healthcheck:
-      test: "wget localhost:9325 -q -O - > /dev/null 2>&1"
-      interval: 5s
-      timeout: 2s
-      retries: 3
+  # sns:
+  #   image: s12v/sns
+  #   ports:
+  #   - "9911:9911"
+  #   volumes:
+  #   - ./sns/db.json:/etc/sns/db.json
+  #   depends_on:
+  #     sqs:
+  #       condition: service_healthy
+  # sqs:
+  #   image: roribio16/alpine-sqs
+  #   ports:
+  #     - 9324:9324
+  #     - 9325:9325 #SQS Queue Dashboard
+  #   volumes:
+  #     - ./sqs/elasticmq.conf:/opt/custom/elasticmq.conf
+  #   healthcheck:
+  #     test: "wget localhost:9325 -q -O - > /dev/null 2>&1"
+  #     interval: 5s
+  #     timeout: 2s
+  #     retries: 3
   # kafka-cluster:
   #   image: landoop/fast-data-dev:cp3.3.0
   #   environment:
