@@ -5,7 +5,7 @@ POC getting real-time data events from Js Shooter Game, generating data streams 
 The data generation is made using automated bots that play the game dynamic data, I created a bot to jsShooter called `jsShooterBot`. To run go to directory jsShooterBot and run `node app.js`.
 
 After run the bots will start and the battle begins:
-<img src="./docs/bots-battle.gif" width="250">
+<img src="./docs/bots-battle.gif" width="500">
 
 The data will be sent for kafka by backend.
 
