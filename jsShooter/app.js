@@ -635,6 +635,21 @@ io.sockets.on("connection", function(socket) {
 	socket.emit("id", {
 		id:socket.id
 	});
+
+	let playerEvent = {
+		id: player.id,
+		name: player.name,
+		connected: true
+	}
+
+	if (KAFKA_IS_CONNECTED) {
+		const payloads = [{
+			 topic: "players",
+			 key: player.id, 
+			 messages: JSON.stringify(playerEvent) 
+		}]
+		kafkaProducer.send(payloads, (err, data) => {})
+	}
 	
 	socket.on("disconnect", function() {
 		try {
@@ -647,6 +662,21 @@ io.sockets.on("connection", function(socket) {
 			delete PLAYER_LIST[socket.id];
 			disconnectSocket(socket.id);
 			console.log(colors.cyan("[jsShooter] Player with id " + socket.id + " disconnected"));
+			
+			let playerEvent = {
+				id: player.id,
+				name: player.name,
+				connected: false
+			}
+		
+			if (KAFKA_IS_CONNECTED) {
+				const payloads = [{
+					 topic: "players",
+					 key: player.id, 
+					 messages: JSON.stringify(playerEvent) 
+				}]
+				kafkaProducer.send(payloads, (err, data) => {})
+			}
 		} catch(err) {
 			if(debug) {
 				throw err;
@@ -688,14 +718,20 @@ io.sockets.on("connection", function(socket) {
 			if(player.name != data.name ) {
 				console.log(colors.cyan("[jsShooter] Player with id " + socket.id + " changed name to " + data.name));
 				player.name = data.name;
+
+				let playerEvent = {
+					id: player.id,
+					name: player.name,
+					connected: true
+				}
+			
 				if (KAFKA_IS_CONNECTED) {
-					let gameEvent = {
-						type: 'changeName',
-						player_id: player.id
-					}
-					const payloads = [{ topic: "game_updates", messages: JSON.stringify(gameEvent) }]
-						kafkaProducer.send(payloads, (err, data) => {}
-					)
+					const payloads = [{
+						 topic: "players",
+						 key: player.id, 
+						 messages: JSON.stringify(playerEvent) 
+					}]
+					kafkaProducer.send(payloads, (err, data) => {})
 				}
 			}
 		} catch(err) {
@@ -744,15 +780,6 @@ io.sockets.on("connection", function(socket) {
 	socket.on('upgHPClicked',function(data){
 		try {
 			let player = getPlayerByID(socket.id);
-			if (KAFKA_IS_CONNECTED) {
-				let gameEvent = {
-					type: 'upgHPClicked',
-					player_id: player.id
-				}
-				const payloads = [{ topic: "game_updates", messages: JSON.stringify(gameEvent) }]
-					kafkaProducer.send(payloads, (err, data) => {}
-				)
-			}
 
 			if(!(player == undefined)) {
 				if(player.score >= player.upgHPPrice) {
@@ -775,15 +802,6 @@ io.sockets.on("connection", function(socket) {
 	socket.on('upgFSpeedClicked',function(data){
 		try {
 			let player = getPlayerByID(socket.id);
-			if (KAFKA_IS_CONNECTED) {
-				let gameEvent = {
-					type: 'upgFSpeedClicked',
-					player_id: player.id
-				}
-				const payloads = [{ topic: "game_updates", messages: JSON.stringify(gameEvent) }]
-				kafkaProducer.send(payloads, (err, data) => { })
-			}
-
 			if(!(player == undefined)) {
 				if(!player.doubleFireSpeed) {
 					if(player.score >= 2000) {
@@ -808,14 +826,6 @@ io.sockets.on("connection", function(socket) {
 	socket.on('upgBulletSize',function(data){
 		try {
 			let player = getPlayerByID(socket.id);
-			if (KAFKA_IS_CONNECTED) {
-				let gameEvent = {
-					type: 'upgBulletSize',
-					player_id: player.id
-				}
-				const payloads = [{ topic: "game_updates", messages: JSON.stringify(gameEvent) }]
-				kafkaProducer.send(payloads, (err, data) => { })
-			}
 			if(!(player == undefined)) {
 				if(!player.doubleBulletSize) {
 					if(player.score >= 5000) {
@@ -835,15 +845,6 @@ io.sockets.on("connection", function(socket) {
 	socket.on('upgDualBullets', function() {
 		try {
 			let player = getPlayerByID(socket.id);
-			if (KAFKA_IS_CONNECTED) {
-				let gameEvent = {
-					type: 'upgDualBullets',
-					player_id: player.id
-				}
-				const payloads = [{ topic: "game_updates", messages: JSON.stringify(gameEvent) }]
-				kafkaProducer.send(payloads, (err, data) => { })
-			}
-			
 			if(!(player == undefined)) {
 				if(!player.dualBullets) {
 					if(player.score >= 5000) {
@@ -948,7 +949,7 @@ setInterval(function() {
 		// Spawn attackers
 		if(Object.keys(ATTACKER_LIST).length < 3 && Math.floor(Math.random() * 4) == 1) {
 			if(countActivePlayers() > 0) {
-				// spawnAttacker();
+				spawnAttacker();
 			}
 		}
 
@@ -968,7 +969,7 @@ setInterval(function() {
 		// Spawn and despawn shooters
 		if(Object.keys(NPCSHOOTER_LIST).length < 5 && Math.floor(Math.random() * (countOPPlayers() > 0 ? 4 : 20)) == 1) {
 			if(countActivePlayers() > 0) {
-				// spawnShooter();
+				spawnShooter();
 			}
 		}
 		if(countActivePlayers() < 1) {
@@ -1093,9 +1094,8 @@ async function update() {
 				if(updatePriceCooldown <= 0) {
 					let socket = SOCKET_LIST[p];
 					let priceUpdate = {
-						id: player.id,
+						playerId: player.id,
 						hp: player.hp,
-						name: player.name,
 						upgHP:player.upgHPPrice,
 						score:player.score,
 						doubleBulletSize:player.doubleBulletSize,
@@ -1106,7 +1106,11 @@ async function update() {
 					}
 
 					if (KAFKA_IS_CONNECTED) {
-						const payloads = [{ topic: "player_updates", messages: JSON.stringify(priceUpdate) }]
+						const payloads = [{
+							 topic: "game_updates",
+							 key: priceUpdate.playerId, 
+							 messages: JSON.stringify(priceUpdate) 
+						}]
 						kafkaProducer.send(payloads, (err, data) => {})
 					}
 					socket.emit("price", priceUpdate);

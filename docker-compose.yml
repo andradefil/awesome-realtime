@@ -65,9 +65,11 @@ services:
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
   ksqldb-server:
-    image: confluentinc/ksqldb-server:0.9.0
+    image: confluentinc/ksqldb-server:0.10.1
     hostname: ksqldb-server
     container_name: ksqldb-server
+    depends_on:
+      - broker
     ports:
       - "8088:8088"
     volumes:
@@ -77,6 +79,4 @@ services:
       KSQL_BOOTSTRAP_SERVERS: broker:9092
       KSQL_KSQL_LOGGING_PROCESSING_STREAM_AUTO_CREATE: "true"
       KSQL_KSQL_LOGGING_PROCESSING_TOPIC_AUTO_CREATE: "true"
-      KSQL_KSQL_CONNECT_WORKER_CONFIG: '/etc/ksqldb/connect-standalone.properties'
-    depends_on:
-      - broker
+      # KSQL_KSQL_CONNECT_WORKER_CONFIG: '/etc/ksqldb/connect-standalone.properties'

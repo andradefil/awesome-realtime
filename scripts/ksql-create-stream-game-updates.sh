@@ -1,6 +1,6 @@
-:'
-CREATE TABLE playerstable (\
-id VARCHAR, \
+:' 
+CREATE STREAM game_updates (\
+playerId VARCHAR KEY, \
 hp INT, \
 name VARCHAR, \
 upgHP INT, \
@@ -10,4 +10,4 @@ doubleFireSpeed BOOLEAN, \
 quadrupleFireSpeed BOOLEAN, \
 quadrupleBullets BOOLEAN, \
 dualBullets BOOLEAN) \
-WITH (VALUE_FORMAT='JSON', KAFKA_TOPIC='js-shooter-price-update', KEY='id');
+WITH (VALUE_FORMAT='JSON', KAFKA_TOPIC='game_updates');
