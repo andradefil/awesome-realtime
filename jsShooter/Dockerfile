@@ -3,8 +3,8 @@ COPY package* /tmp/
 WORKDIR /tmp
 RUN npm install
 
-WORKDIR /app
 COPY . /app
+WORKDIR /app
 
 ENV PORT=8080
 
