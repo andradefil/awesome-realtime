@@ -1,5 +1,5 @@
 # awesome-realtime
-Example of a stream processor application with kafka and ksqldb using a cenario of a real time multiplayer shooter game.
+Example of a stream processor application with kafka and ksqldb using a scenario of a real time multiplayer shooter game.
 
 ## Architecture
 JsShooter game backend produces messages on kafka topics: `game_updates` and `players`, the messages is processed from kafka topics using ksqldb streams, tables and materialized views. The messages in kafka topics follow the below formats:
