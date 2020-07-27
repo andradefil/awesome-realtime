@@ -8,4 +8,4 @@ WORKDIR /app
 
 ENV PORT=8080
 
-ENTRYPOINT [ "node", "app.js" ]
+CMD node app.js
