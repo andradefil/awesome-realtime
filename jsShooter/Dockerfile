@@ -1,6 +1,7 @@
 FROM node:latest
-COPY package* /tmp/
+
 WORKDIR /tmp
+COPY package* /tmp/
 RUN npm install
 
 COPY . /app
