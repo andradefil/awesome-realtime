@@ -4,7 +4,7 @@ WORKDIR /tmp
 COPY package* /tmp/
 RUN npm install
 
-COPY . /app
+COPY node_modules /app
 WORKDIR /app
 
 ENV PORT=8080
