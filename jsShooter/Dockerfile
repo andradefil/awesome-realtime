@@ -1,11 +1,10 @@
 FROM node:latest
 
-WORKDIR /tmp
-COPY package* /tmp/
-RUN npm install
-
-COPY . /app
+COPY package* /app/
 WORKDIR /app
+
+RUN npm install
+COPY . /app
 
 ENV PORT=8080
 CMD node app.js
