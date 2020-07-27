@@ -6,6 +6,6 @@ RUN npm install
 WORKDIR /app
 COPY . /app
 
-ENV PORT=80
+ENV PORT=8080
 
 ENTRYPOINT [ "node", "app.js" ]

@@ -31,7 +31,7 @@ if(process.env.PORT == undefined) {
 	console.log(colors.blue(`[jsShooter] No Kafka port defined using default (${kafkaPort})`));
 }
 
-serv.listen(port, '127.0.0.1');
+serv.listen(port);
 var io = require("socket.io")(serv, {});
 io.use(middleware);
 
