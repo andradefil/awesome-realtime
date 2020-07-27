@@ -50,7 +50,7 @@ Timestamp:   2020-07-26 18:45:54.214 -0300 -03
 
 Innitialize the components:
 ```bash
-docker-compose up
+docker-compose build && docker-compose up
 ```
 
 Connect in ksql-server:
