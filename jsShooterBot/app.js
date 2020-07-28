@@ -4,7 +4,7 @@ const puppeteer = require('puppeteer');
 const faker = require('faker');
 
 const PLAYER_BOTS_LIMIT = 45;
-const GAME_URL = 'http://ec2-3-236-241-20.compute-1.amazonaws.com:8080'
+const GAME_URL = 'http://localhost:8080'
 const CLOCK = 1000
 
 var PlayerBot = function (browser) {
