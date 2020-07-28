@@ -1,4 +1,4 @@
-FROM node:latest
+FROM buildkite/puppeteer:latest
 
 COPY package* /app/
 WORKDIR /app
