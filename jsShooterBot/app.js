@@ -58,7 +58,10 @@ async function playGame(bots) {
 }
 
 (async () => {
-    const browser = await puppeteer.launch({ headless: true });
+    const browser = await puppeteer.launch({
+         headless: true,
+         args: ['--no-sandbox']
+    });
     let bots = await runBots(browser)
     setIntervalAsync(async () => { 
         await playGame(bots) 
