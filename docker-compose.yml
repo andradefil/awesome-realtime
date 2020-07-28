@@ -1,6 +1,14 @@
 
 version: '2.4'
 services:
+  shooterbot:
+    build:
+      context: ./jsShooterBot
+    hostname: shooterbot
+    container_name: shooterbot
+    depends_on:
+      - shootergame
+    network_mode: "host"
   shootergame:
     build:
       context: ./jsShooter
