@@ -246,6 +246,10 @@ curl -s -X "POST" "http://localhost:8088/query" \
 
 ```
 
+Especial Thanks for @AntonUden for build the game JsShooter, I only made some adaptions to work
+with this example with kafka
+original game repo: https://github.com/AntonUden/jsShooter.git
+
 
 
 
