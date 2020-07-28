@@ -3,8 +3,8 @@ const { setIntervalAsync } = require('set-interval-async/dynamic')
 const puppeteer = require('puppeteer');
 const faker = require('faker');
 
-const PLAYER_BOTS_LIMIT = 4;
-const GAME_URL = 'http://localhost'
+const PLAYER_BOTS_LIMIT = 45;
+const GAME_URL = 'http://ec2-3-236-241-20.compute-1.amazonaws.com:8080'
 const CLOCK = 1000
 
 var PlayerBot = function (browser) {
@@ -58,7 +58,7 @@ async function playGame(bots) {
 }
 
 (async () => {
-    const browser = await puppeteer.launch({ headless: false });
+    const browser = await puppeteer.launch({ headless: true });
     let bots = await runBots(browser)
     setIntervalAsync(async () => { 
         await playGame(bots) 
